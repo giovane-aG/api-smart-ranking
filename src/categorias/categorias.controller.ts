@@ -31,5 +31,13 @@ export class CategoriasController {
     @Body() atualizarCategoriaDTO: AtualizarCategoriaDTO) : Promise<void> {
       return await this.categoriaService.atualizarCategoria(categoria, atualizarCategoriaDTO);
     }
+  
+  @Post('/:categoria/jogadores/:jogador_id')
+  async adicionarJogadorNaCategoria(
+    @Param() params: any,
+    ) : Promise<void> {
+      const { categoria, jogador_id } = params;
+      return await this.categoriaService.adicionarJogadorNaCategoria(categoria, jogador_id);
+    }
 
 }
