@@ -4,10 +4,10 @@ import { CriarJogadorDto } from './dtos/criar-jogador.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AtualizarJogadorDto } from './dtos/atualizar-jogador.dto';
 
 @Injectable()
 export class JogadoresService {
-  private readonly logger = new Logger(JogadoresService.name);
 
   constructor (
     @InjectModel('Jogador') private readonly jogadorModel: Model<Jogador>) {}
@@ -34,19 +34,22 @@ export class JogadoresService {
     return await this.jogadorModel.create(novoJogador);
   }
   
-  public async atualizarJogador (_id: string, criarJogadorDto: CriarJogadorDto) : Promise<void> {
+  public async atualizarJogador (_id: string, atualizarJogadorDto: AtualizarJogadorDto) : Promise<void> {
     const jogador = await this.jogadorModel.findOne({ _id });
 
-    if (!jogador) throw new NotFoundException();
+    if (!jogador) throw new NotFoundException(`Nenhum jogador com o _id ${_id} foi encontrado`);
     
     await this.jogadorModel.findOneAndUpdate({
         _id: _id
       },{ 
-        $set: criarJogadorDto
+        $set: atualizarJogadorDto
     }).exec();
   }
 
   async deletarJogador (_id: string) : Promise<void> {
+    const jogador = await this.jogadorModel.findOne({ _id });
+    if (!jogador) throw new NotFoundException(`Nenhum jogador com o _id ${_id} foi encontrado`);
+
     await this.jogadorModel.findOneAndDelete({_id});
   }
 }
