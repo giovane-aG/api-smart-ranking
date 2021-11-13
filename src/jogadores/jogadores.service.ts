@@ -35,6 +35,10 @@ export class JogadoresService {
   }
   
   public async atualizarJogador (_id: string, criarJogadorDto: CriarJogadorDto) : Promise<void> {
+    const jogador = await this.jogadorModel.findOne({ _id });
+
+    if (!jogador) throw new NotFoundException();
+    
     await this.jogadorModel.findOneAndUpdate({
         _id: _id
       },{ 
