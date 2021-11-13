@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JogadoresModule } from './jogadores/jogadores.module';
+import { CategoriasModule } from './categorias/categorias.module';
 
 @Module({
   imports: [
@@ -8,7 +9,8 @@ import { JogadoresModule } from './jogadores/jogadores.module';
       `mongodb+srv://giovane:giovane27@cluster0.mpxxd.mongodb.net/apismartranking?retryWrites=true&w=majority&authSource=admin&readPreference=primary`,
       { useNewUrlParser: true, useUnifiedTopology: true }
     ),
-    JogadoresModule
+    JogadoresModule,
+    CategoriasModule
   ],
   controllers: [],
   providers: [],
