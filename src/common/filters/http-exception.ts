@@ -15,10 +15,10 @@ export class AllExceptionsFilter implements ExceptionFilter  {
 
     if (exception instanceof HttpException) {
       status = exception.getStatus();
-      message = exception.getResponse()
+      message = exception.message
     } else {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
-      message = '';
+      message = exception;
     }
 
     this.logger.error(`Http Status: ${status} Error Message: ${JSON.stringify(message)}`);
