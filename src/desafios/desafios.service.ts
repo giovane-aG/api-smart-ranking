@@ -20,14 +20,8 @@ export class DesafiosService {
     return await this.desafioModel.find();
   }
 
-  async consultarDesafioPeloId (_id: string) : Promise<Desafio> {
-    const desafioEncontrado = await this.desafioModel.findOne({ _id });
-
-    if (!desafioEncontrado) {
-      throw new NotFoundException(`Nenhum desafio com o _id ${_id} foi encontrado`);
-    }
-
-    return desafioEncontrado;
+  async consultarDesafiosDeUmjogador (_id: string) : Promise<Array<Desafio>> {
+    return await this.desafioModel.find().where('jogadores').in([_id]);
   }
 
   async criarDesafio (criarDesafioDTO: CriarDesafioDTO) : Promise<Desafio> {
@@ -56,12 +50,12 @@ export class DesafiosService {
     categorias.forEach(categoria => {
       const { jogadores } = categoria;
 
-      if (jogadores.includes(solicitante)) { // continuar
+      if (jogadores.includes(solicitante)) {
         solicitantePertenceAAlgumaCategoria = true;
         categoriaSolicitante = categoria.categoria;
       }
 
-      if (jogadores.find(jogador => jogador == desafiado)) {
+      if (jogadores.includes(desafiado)) {
         desafiadoPertenceAAlgumaCategoria = true;
       }
     });

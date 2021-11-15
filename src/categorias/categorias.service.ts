@@ -26,7 +26,7 @@ export class CategoriasService {
   }
 
   async consultarCategorias () : Promise<Array<Categoria>> {
-    return await this.categoriaModel.find().populate('jogadores');
+    return await this.categoriaModel.find()//.populate('jogadores');
   }
 
   async consultarCategoria (categoria: string) : Promise<Categoria> {

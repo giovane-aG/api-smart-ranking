@@ -14,8 +14,8 @@ export class DesafiosController {
   }
 
   @Get('/:_id')
-  async consultarDesafioPeloId (@Param('_id') _id: string) : Promise<Desafio> {
-    return await this.desafiosService.consultarDesafioPeloId(_id);
+  async consultarDesafioDeUmjogador (@Param('_id') _id: string) : Promise<Array<Desafio>> {
+    return await this.desafiosService.consultarDesafiosDeUmjogador(_id);
   }
 
   @Post()
