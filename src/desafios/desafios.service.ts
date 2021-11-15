@@ -1,6 +1,6 @@
 import { BadRequestException, Get, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Date, Model } from 'mongoose';
 import { CategoriasService } from 'src/categorias/categorias.service';
 import { JogadoresService } from 'src/jogadores/jogadores.service';
 import { CriarDesafioDTO } from './dtos/criar-desafio.dto';
@@ -69,7 +69,7 @@ export class DesafiosService {
 
     const novoDesafio = new this.desafioModel({
       categoria: categoriaSolicitante,
-      dataHoraDesafio: criarDesafioDTO.dataHoraDesafio,
+      dataHoraDesafio,
       dataHoraSolicitacao: new Date().toISOString(),
       status: DesafioStatus.PENDENTE,
       solicitante,
