@@ -98,4 +98,15 @@ export class DesafiosService {
       $set: desafioSelecionado
     });
   }
+
+  async deletarDesafio(_id: string) : Promise<void> {
+
+    const desafioSelecionado = this.desafioModel.findOne({ _id });
+
+    if (!desafioSelecionado) {
+      throw new NotFoundException(`Nenhum desafio com o _id ${_id} foi encontrado`);
+    }
+
+    await this.desafioModel.updateOne({ _id }, { status: DesafioStatus.CANCELADO });
+  }
 }
