@@ -87,8 +87,15 @@ export class DesafiosService {
       throw new NotFoundException(`Nenhum desafio com o _id ${_id} foi encontrado`);
     }
 
+    if (atualizarDesafioDTO.status) {
+      desafioSelecionado.dataHoraResposta = new Date();
+    }
+
+    desafioSelecionado.status = atualizarDesafioDTO.status;
+    desafioSelecionado.dataHoraDesafio = atualizarDesafioDTO.dataHoraDesafio;
+
     await this.desafioModel.findOneAndUpdate({ _id }, {
-      $set: atualizarDesafioDTO
+      $set: desafioSelecionado
     });
   }
 }

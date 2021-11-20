@@ -5,7 +5,7 @@ export class DesafioStatusValidacaoPipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
     const status = value.status
     
-    if(!this.statusValido(status)) {
+    if(status && !this.statusValido(status)) {
       throw new BadRequestException(`O status ${status} não é válido`);
     }
 
