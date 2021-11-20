@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Date, Model } from 'mongoose';
 import { CategoriasService } from 'src/categorias/categorias.service';
 import { JogadoresService } from 'src/jogadores/jogadores.service';
+import { AtualizarDesafioDTO } from './dtos/atualizar-desafio.dto';
 import { CriarDesafioDTO } from './dtos/criar-desafio.dto';
 import { DesafioStatus } from './interfaces/desafio-status.enum';
 import { Desafio } from './interfaces/desafios.interface';
@@ -77,5 +78,17 @@ export class DesafiosService {
     });
     
     return await this.desafioModel.create(novoDesafio);
+  }
+
+  async atualizarDesafio (_id: string, atualizarDesafioDTO: AtualizarDesafioDTO) : Promise<void> {
+    const desafioSelecionado = await this.desafioModel.findOne({ _id });
+
+    if (!desafioSelecionado) {
+      throw new NotFoundException(`Nenhum desafio com o _id ${_id} foi encontrado`);
+    }
+
+    await this.desafioModel.findOneAndUpdate({ _id }, {
+      $set: atualizarDesafioDTO
+    });
   }
 }
