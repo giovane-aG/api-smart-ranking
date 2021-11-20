@@ -27,7 +27,7 @@ export class DesafiosService {
   async criarDesafio (criarDesafioDTO: CriarDesafioDTO) : Promise<Desafio> {
     const { solicitante, dataHoraDesafio, jogadores } = criarDesafioDTO;
 
-    const solicitanteEncontrado = await this.jogadoresService.consultarJogadorPeloId(solicitante);
+    const solicitanteEncontrado = await this.jogadoresService.consultarJogadorPeloId(solicitante._id);
 
     const solicitanteEUmDosJogadores = jogadores.find(jogador => jogador == solicitanteEncontrado._id);
     if (!solicitanteEUmDosJogadores) {
@@ -50,12 +50,12 @@ export class DesafiosService {
     categorias.forEach(categoria => {
       const { jogadores } = categoria;
 
-      if (jogadores.includes(solicitante)) {
+      if (jogadores.includes(solicitante._id)) {
         solicitantePertenceAAlgumaCategoria = true;
         categoriaSolicitante = categoria.categoria;
       }
 
-      if (jogadores.includes(desafiado)) {
+      if (jogadores.includes(desafiado._id)) {
         desafiadoPertenceAAlgumaCategoria = true;
       }
     });
