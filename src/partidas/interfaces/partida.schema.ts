@@ -14,5 +14,9 @@ export const PartidaSchema = new Schema({
     set: {
       type: String
     }
-  }]
+  }],
+  desafio: {
+    type: Schema.Types.ObjectId,
+    ref: "Desafio",
+  }
 }, { timestamps: true, collection: 'partidas' });
