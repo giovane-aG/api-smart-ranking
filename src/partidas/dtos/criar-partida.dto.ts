@@ -3,7 +3,7 @@ import { Desafio } from "src/desafios/interfaces/desafios.interface";
 import { Jogador } from "src/jogadores/interfaces/jogador.interface";
 
 
-export class criarPartidaDTO {
+export class CriarPartidaDTO {
 
   @IsString()
   @IsNotEmpty()
@@ -13,9 +13,6 @@ export class criarPartidaDTO {
   @ArrayMaxSize(2)
   @ArrayMinSize(2)
   jogadores: Array<Jogador>;
-
-  @IsNotEmpty()
-  def: Jogador;
 
   @IsNotEmpty()
   desafio: Desafio;
