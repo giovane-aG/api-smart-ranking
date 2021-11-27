@@ -1,6 +1,7 @@
-import { Body, Controller, Param, Post, Get, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Param, Post, Get, UsePipes, ValidationPipe, Put, Patch } from '@nestjs/common';
 import { Partida } from 'src/desafios/interfaces/partida.interface';
-import { criarPartidaDTO } from './dtos/criar-partida.dto';
+import { AtualizarResultadoDTO } from './dtos/atualizar-resultado.dto';
+import { CriarPartidaDTO } from './dtos/criar-partida.dto';
 import { PartidasService } from './partidas.service';
 
 @Controller('api/v1/partidas')
@@ -10,12 +11,17 @@ export class PartidasController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  async criarPartida (@Body() criarPartidaDTO: criarPartidaDTO) : Promise<Partida> {
+  async criarPartida (@Body() criarPartidaDTO: CriarPartidaDTO) : Promise<Partida> {
     return this.partidasService.criarPartida(criarPartidaDTO);
   }
 
   @Get()
   async consultarPartidas () : Promise<Array<Partida>> {
     return await this.partidasService.consultarPartidas();
+  }
+
+  @Patch('/:partida')
+  async atualizarResultado (@Param('partida') partida, @Body() atualizarResultadoDTO: AtualizarResultadoDTO) : Promise<void> {
+    return await this.partidasService.atualizarResultado(partida, atualizarResultadoDTO);
   }
 }
