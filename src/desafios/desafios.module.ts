@@ -12,6 +12,7 @@ import { DesafioSchema } from './interfaces/desafio.schema';
     CategoriasModule,
     JogadoresModule
   ],
+  exports: [DesafiosService],
   providers: [DesafiosService],
   controllers: [DesafiosController]
 })
