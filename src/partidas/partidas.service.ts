@@ -49,5 +49,9 @@ export class PartidasService {
     });
 
     return await this.partidaModel.create(partida);
-  } 
+  }
+  
+  async consultarPartidas () : Promise<Array<Partida>> {
+    return await this.partidaModel.find().populate('desafio')
+  }
 }
