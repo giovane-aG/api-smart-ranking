@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { PartidasService } from './partidas.service';
 import { PartidasController } from './partidas.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -12,8 +12,9 @@ import { DesafiosModule } from 'src/desafios/desafios.module';
     MongooseModule.forFeature([{ name: 'Partida', schema: PartidaSchema }]),
     JogadoresModule,
     CategoriasModule,
-    DesafiosModule
+    forwardRef(() => DesafiosModule)
   ],
+  exports: [PartidasService],
   providers: [PartidasService],
   controllers: [PartidasController]
 })

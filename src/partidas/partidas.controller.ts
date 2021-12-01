@@ -20,6 +20,12 @@ export class PartidasController {
     return await this.partidasService.consultarPartidas();
   }
 
+  @Get('/:partida')
+  @UsePipes(ValidationPipe)
+  async consultarPartidaPeloId (@Param('partida') partida: string) : Promise<Partida> {
+    return await this.partidasService.consultarPartidaPeloId(partida);
+  }
+  
   @Patch('/:partida')
   async atualizarResultado (@Param('partida') partida, @Body() atualizarResultadoDTO: AtualizarResultadoDTO) : Promise<void> {
     return await this.partidasService.atualizarResultado(partida, atualizarResultadoDTO);
