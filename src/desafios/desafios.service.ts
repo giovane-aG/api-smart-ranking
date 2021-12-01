@@ -1,8 +1,9 @@
-import { BadRequestException, Get, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, forwardRef, Get, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Date, Model } from 'mongoose';
 import { CategoriasService } from 'src/categorias/categorias.service';
 import { JogadoresService } from 'src/jogadores/jogadores.service';
+import { PartidasService } from 'src/partidas/partidas.service';
 import { AtualizarDesafioDTO } from './dtos/atualizar-desafio.dto';
 import { CriarDesafioDTO } from './dtos/criar-desafio.dto';
 import { DesafioStatus } from './interfaces/desafio-status.enum';
@@ -14,7 +15,9 @@ export class DesafiosService {
   constructor(
     @InjectModel('Desafio') private readonly desafioModel: Model<Desafio>,
     private readonly categoriasService: CategoriasService,
-    private readonly jogadoresService: JogadoresService
+    private readonly jogadoresService: JogadoresService,
+    @Inject(forwardRef(() => PartidasService))
+    private readonly partidasService: PartidasService
   ) {}
 
   async consultarDesafios () : Promise<Array<Desafio>> {
@@ -99,7 +102,7 @@ export class DesafiosService {
     });
   }
 
-  async deletarDesafio(_id: string) : Promise<void> {
+  async deletarDesafio (_id: string) : Promise<void> {
 
     const desafioSelecionado = this.desafioModel.findOne({ _id });
 
@@ -108,5 +111,25 @@ export class DesafiosService {
     }
 
     await this.desafioModel.updateOne({ _id }, { status: DesafioStatus.CANCELADO });
+  }
+
+  async atribuirPartidaADesafio (desafio: string, partida: string) : Promise<void> {
+    const desafioSelecionado = await this.desafioModel.findOne({ _id: desafio });
+
+    if (!desafioSelecionado) {
+      throw new NotFoundException(`Nenhum desafio com o _id ${desafio} foi encontrado`);
+    }
+
+    const partidaSelecionada = await this.partidasService.consultarPartidaPeloId(partida);
+
+    if (!partidaSelecionada) {
+      throw new NotFoundException(`Nenhuma partida com o _id ${partida} foi encontrada`);
+    }
+
+    desafioSelecionado.partida = partidaSelecionada;
+
+    await this.desafioModel.findOneAndUpdate({ _id: desafio }, {
+      $set: desafioSelecionado
+    });
   }
 }
