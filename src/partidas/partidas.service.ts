@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CategoriasService } from 'src/categorias/categorias.service';
@@ -15,6 +15,7 @@ export class PartidasService {
     @InjectModel('Partida') private readonly partidaModel : Model<Partida>,
     private readonly jogadoresService: JogadoresService,
     private readonly categoriasService: CategoriasService,
+    @Inject(forwardRef(() => DesafiosService))
     private readonly desafiosService: DesafiosService
   ) {}
 
@@ -53,6 +54,10 @@ export class PartidasService {
   
   async consultarPartidas () : Promise<Array<Partida>> {
     return await this.partidaModel.find().populate('desafio');
+  }
+
+  async consultarPartidaPeloId (partida) : Promise<Partida> {
+    return await this.partidaModel.findOne({ _id: partida });
   }
 
   async atualizarResultado (partida: string, atualizarResultadoDTO: AtualizarResultadoDTO) : Promise<void> {
