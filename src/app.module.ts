@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JogadoresModule } from './jogadores/jogadores.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { DesafiosModule } from './desafios/desafios.module';
 import { PartidasModule } from './partidas/partidas.module';
+import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 
 @Module({
   imports: [
@@ -19,4 +20,16 @@ import { PartidasModule } from './partidas/partidas.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure (consumer: MiddlewareConsumer) {
+    
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes(
+        'api/v1/partidas',
+        'api/v1/jogadores',
+        'api/v1/desafios',
+        'api/v1/categorias'
+      );
+  }
+}
