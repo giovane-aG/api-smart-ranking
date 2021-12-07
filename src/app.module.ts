@@ -5,6 +5,8 @@ import { CategoriasModule } from './categorias/categorias.module';
 import { DesafiosModule } from './desafios/desafios.module';
 import { PartidasModule } from './partidas/partidas.module';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { AuthModule } from './auth/auth.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
 
 @Module({
   imports: [
@@ -15,7 +17,9 @@ import { LoggerMiddleware } from './common/middlewares/logger.middleware';
     JogadoresModule,
     CategoriasModule,
     DesafiosModule,
-    PartidasModule
+    PartidasModule,
+    AuthModule,
+    UsuariosModule
   ],
   controllers: [],
   providers: [],
