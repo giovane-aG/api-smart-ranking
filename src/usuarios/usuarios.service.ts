@@ -7,7 +7,7 @@ import { Usuario } from './interfaces/usuario.interface';
 export class UsuariosService {
 
   constructor(
-    @InjectModel('Usuario') private readonly usuarioModel: Model<Usuario>
+    @InjectModel('Usuarios') private readonly usuarioModel: Model<Usuario>
   ) {}
 
   async buscarPeloEmail (email: string) : Promise<Usuario> {
