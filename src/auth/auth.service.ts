@@ -1,10 +1,7 @@
-import { BadRequestException, Dependencies, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { Injectable } from '@nestjs/common';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
-import { compare } from 'bcrypt';
 
 @Injectable()
-@Dependencies(UsuariosService)
 export class AuthService {
 
   constructor (
@@ -18,7 +15,7 @@ export class AuthService {
       return null;
     }
     
-    const senhaValida = await compare(inputSenha, usuario.senha);
+    const senhaValida = inputSenha == usuario.senha;
     
     if (!senhaValida) {
       return null;
