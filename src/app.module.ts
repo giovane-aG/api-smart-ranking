@@ -7,7 +7,6 @@ import { PartidasModule } from './partidas/partidas.module';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
-import { AppController } from './app/app.controller';
 
 @Module({
   imports: [
@@ -22,7 +21,7 @@ import { AppController } from './app/app.controller';
     AuthModule,
     UsuariosModule
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [],
 })
 export class AppModule implements NestModule {
