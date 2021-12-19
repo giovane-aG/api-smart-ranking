@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CriarJogadorDto } from './dtos/criar-jogador.dto';
 import { AtualizarJogadorDto } from './dtos/atualizar-jogador.dto';
 import { JogadoresService } from './jogadores.service';
 import { Jogador } from './interfaces/jogador.interface';
 import { ValidacaoParametrosPipe } from '../common/pipes/validacao-parametros.pipe';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('api/v1/jogadores')
 export class JogadoresController {
@@ -26,6 +27,7 @@ export class JogadoresController {
     return await this.jogadoresService.atualizarJogador(_id, atualizarJogadorDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async consultarJogadores () : Promise<Jogador[]> {
     return this.jogadoresService.consultarJogadores();
