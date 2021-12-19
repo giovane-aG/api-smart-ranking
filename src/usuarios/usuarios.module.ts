@@ -4,7 +4,8 @@ import { UsuarioSchema } from './interfaces/usuario.schema';
 import { UsuariosService } from './usuarios.service';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'Usuarios', schema: UsuarioSchema  }])],
+  imports: [
+    MongooseModule.forFeature([{ name: 'Usuarios', schema: UsuarioSchema  }])],
   providers: [UsuariosService],
   exports: [UsuariosService]
 })

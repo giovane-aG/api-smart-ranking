@@ -11,7 +11,7 @@ export class AuthService {
   ) {}
 
   async autenticarUsuario (email: string, inputSenha: string) : Promise<any> {
-    const usuario = await this.usuariosService.buscarPeloEmail(email);
+    let usuario = await this.usuariosService.buscarPeloEmail(email);
 
     if (!usuario) {
       return null;
@@ -24,6 +24,7 @@ export class AuthService {
     }
 
     return {
+      userId: usuario._id,
       email: usuario.email
     };
   }
